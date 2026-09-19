@@ -1,3 +1,8 @@
+"""
+Mock Cancel Lambda — Simulates a real subscription cancellation API.
+Invoked directly by Step Functions (not via API Gateway).
+Owner: Laptop 1 (completed since Laptop 3 didn't push)
+"""
 import json
 import logging
 import time
@@ -6,49 +11,55 @@ import random
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-# --- Shared Helpers Copied In ---
-def build_cors_response(status_code, body):
-    return {
-        'statusCode': status_code,
-        'headers': {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': True,
-            'Content-Type': 'application/json'
-        },
-        'body': json.dumps(body)
-    }
-# ---------------------------------
 
 def lambda_handler(event, context):
-    try:
-        if 'body' in event and event['body']:
-            body = json.loads(event['body'])
-        else:
-            body = event
-            
-        account_id = body.get('account_id')
-        service_name = body.get('service_name', 'Unknown Service')
-        
-        # Simulate API latency
-        # TODO (Laptop 3): Modify latency parameters if needed
-        time.sleep(random.uniform(1.0, 2.0))
-        
-        # Simulate success (70%) or failure (30%)
-        is_success = random.random() < 0.70
-        
-        if is_success:
-            logger.info(f"Successfully simulated cancellation for {service_name} ({account_id})")
-            return build_cors_response(200, {
-                'success': True,
-                'message': f"Cancellation for {service_name} processed successfully."
-            })
-        else:
-            logger.warning(f"Simulated cancellation failed for {service_name} ({account_id})")
-            return build_cors_response(400, {
-                'success': False,
-                'message': f"Failed to cancel {service_name}. Manual intervention required."
-            })
-            
-    except Exception as e:
-        logger.error(f"Error in mock_cancel: {e}")
-        return build_cors_response(500, {'error': str(e)})
+    """
+    Called by Step Functions with:
+    {
+        "action": "validate" | "cancel",
+        "account_id": "acc_xxx",
+        "session_id": "session_yyy",
+        "service_name": "Netflix"
+    }
+    Note: event is raw dict (not API Gateway proxy) — no event['body'] parsing needed.
+    """
+    action = event.get('action', 'cancel')
+    account_id = event.get('account_id', 'unknown')
+    service_name = event.get('service_name', 'Unknown Service')
+    session_id = event.get('session_id', 'unknown')
+
+    logger.info(f"MockCancel invoked — action={action}, service={service_name}, account={account_id}")
+
+    # Simulate network latency
+    time.sleep(random.uniform(0.5, 1.5))
+
+    # --- VALIDATE action ---
+    if action == 'validate':
+        logger.info(f"Validation successful for {service_name}")
+        return {
+            'success': True,
+            'action': 'validate',
+            'account_id': account_id,
+            'service_name': service_name,
+            'message': f'Account {service_name} is valid and ready for cancellation.'
+        }
+
+    # --- CANCEL action ---
+    # 70% success, 30% temporary failure (triggers Step Functions retry)
+    success_roll = random.random()
+    is_success = success_roll < 0.70
+
+    if is_success:
+        logger.info(f"Cancellation SUCCESS for {service_name} ({account_id}) — roll={success_roll:.2f}")
+        return {
+            'success': True,
+            'action': 'cancel',
+            'account_id': account_id,
+            'service_name': service_name,
+            'message': f'Subscription for {service_name} successfully cancelled.'
+        }
+    else:
+        # Raise with the exact error name the ASL catches for retry
+        error_msg = f"CancellationTemporaryError: {service_name} API temporarily unavailable (roll={success_roll:.2f})"
+        logger.warning(f"Cancellation FAILED (retriable) for {service_name} — {error_msg}")
+        raise Exception(error_msg)
