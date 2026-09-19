@@ -1,0 +1,11 @@
+{
+  "httpMethod": "POST",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"session_id\":\"test-session-001\",\"transition_type\":\"moving_abroad\",\"account_ids\":[\"acc_001\",\"acc_002\",\"acc_003\",\"acc_004\",\"acc_005\"]}",
+  "pathParameters": {},
+  "requestContext": {
+    "requestId": "test-classify-001"
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "Comment": "Offboard Cancel Workflow - Orchestrates subscription cancellation with retry logic",
+  "StartAt": "ValidateAccount",
+  "States": {
+    "ValidateAccount": {
+      "Type": "Task",
+      "Comment": "Validate the account exists and is auto-actionable",
+      "Resource": "${MockCancelFunctionArn}",
+      "Parameters": {
+        "action": "validate",
+        "account_id.$": "$.account_id",
+        "session_id.$": "$.session_id",
+        "service_name.$": "$.service_name"
+      },
+      "ResultPath": "$.validation",
+      "Next": "AttemptCancellation",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "CancellationFailed",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+
+    "AttemptCancellation": {
+      "Type": "Task",
+      "Comment": "Call mock subscription cancellation API",
+      "Resource": "${MockCancelFunctionArn}",
+      "Parameters": {
+        "action": "cancel",
+        "account_id.$": "$.account_id",
+        "session_id.$": "$.session_id",
+        "service_name.$": "$.service_name"
+      },
+      "ResultPath": "$.cancellation_result",
+      "Next": "CheckCancellationResult",
+      "Retry": [
+        {
+          "ErrorEquals": ["CancellationTemporaryError"],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "CancellationFailed",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+
+    "CheckCancellationResult": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.cancellation_result.success",
+          "BooleanEquals": true,
+          "Next": "UpdateStatusSuccess"
+        }
+      ],
+      "Default": "CancellationFailed"
+    },
+
+    "UpdateStatusSuccess": {
+      "Type": "Task",
+      "Comment": "Update DynamoDB status to CANCELLED",
+      "Resource": "arn:aws:states:::dynamodb:updateItem",
+      "Parameters": {
+        "TableName": "${TableName}",
+        "Key": {
+          "session_id": { "S.$": "$.session_id" },
+          "account_id": { "S.$": "$.account_id" }
+        },
+        "UpdateExpression": "SET #s = :status, updated_at = :ts",
+        "ExpressionAttributeNames": {
+          "#s": "status"
+        },
+        "ExpressionAttributeValues": {
+          ":status": { "S": "CANCELLED" },
+          ":ts": { "S.$": "$$.State.EnteredTime" }
+        }
+      },
+      "ResultPath": "$.db_update",
+      "Next": "NotifySuccess"
+    },
+
+    "NotifySuccess": {
+      "Type": "Task",
+      "Comment": "Send success notification via SNS",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${NotificationTopicArn}",
+        "Subject": "Offboard: Subscription Cancelled",
+        "Message": {
+          "account_id.$": "$.account_id",
+          "session_id.$": "$.session_id",
+          "service_name.$": "$.service_name",
+          "status": "CANCELLED",
+          "message": "Subscription successfully cancelled."
+        }
+      },
+      "ResultPath": "$.notification",
+      "Next": "Success"
+    },
+
+    "Success": {
+      "Type": "Succeed"
+    },
+
+    "CancellationFailed": {
+      "Type": "Task",
+      "Comment": "Update DynamoDB status to FAILED",
+      "Resource": "arn:aws:states:::dynamodb:updateItem",
+      "Parameters": {
+        "TableName": "${TableName}",
+        "Key": {
+          "session_id": { "S.$": "$.session_id" },
+          "account_id": { "S.$": "$.account_id" }
+        },
+        "UpdateExpression": "SET #s = :status, updated_at = :ts",
+        "ExpressionAttributeNames": {
+          "#s": "status"
+        },
+        "ExpressionAttributeValues": {
+          ":status": { "S": "FAILED" },
+          ":ts": { "S.$": "$$.State.EnteredTime" }
+        }
+      },
+      "ResultPath": "$.db_update",
+      "Next": "NotifyFailure"
+    },
+
+    "NotifyFailure": {
+      "Type": "Task",
+      "Comment": "Send failure notification via SNS",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${NotificationTopicArn}",
+        "Subject": "Offboard: Cancellation Failed",
+        "Message": {
+          "account_id.$": "$.account_id",
+          "session_id.$": "$.session_id",
+          "service_name.$": "$.service_name",
+          "status": "FAILED",
+          "message": "Cancellation failed after retries. Manual action required."
+        }
+      },
+      "ResultPath": "$.notification",
+      "Next": "Failed"
+    },
+
+    "Failed": {
+      "Type": "Fail",
+      "Error": "CancellationFailed",
+      "Cause": "Subscription cancellation failed after all retry attempts."
+    }
+  }
+}

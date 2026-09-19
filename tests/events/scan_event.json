@@ -1,0 +1,11 @@
+{
+  "httpMethod": "POST",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": "{\"inbox_data\":[{\"from\":\"noreply@netflix.com\",\"subject\":\"Your monthly bill for September\",\"date\":\"2026-09-01\",\"snippet\":\"Your Netflix Premium plan (₹649/mo) has been renewed. Family plan shared with 3 members.\"},{\"from\":\"no-reply@spotify.com\",\"subject\":\"Spotify Premium receipt\",\"date\":\"2026-09-10\",\"snippet\":\"Thanks for your payment of ₹119 for Spotify Premium Individual.\"},{\"from\":\"noreply@medium.com\",\"subject\":\"Your Medium membership renewal\",\"date\":\"2026-08-15\",\"snippet\":\"Your Medium membership ($5/month) has been renewed.\"},{\"from\":\"security@facebookmail.com\",\"subject\":\"New login to your account\",\"date\":\"2026-07-01\",\"snippet\":\"We noticed a new login to your Facebook account from Chrome on Windows.\"},{\"from\":\"alerts@hdfcbank.net\",\"subject\":\"Your HDFC Bank account statement\",\"date\":\"2026-09-15\",\"snippet\":\"Dear Customer, your joint account statement for September 2026 is ready.\"}]}",
+  "pathParameters": {},
+  "requestContext": {
+    "requestId": "test-scan-001"
+  }
+}

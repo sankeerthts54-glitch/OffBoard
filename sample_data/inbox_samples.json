@@ -1,0 +1,110 @@
+[
+  {
+    "from": "no-reply@netflix.com",
+    "subject": "Your Netflix membership has been renewed",
+    "date": "2026-09-18T10:20:00Z",
+    "snippet": "We have successfully billed ₹649 for your Premium family plan. You can continue sharing this with 3 other members."
+  },
+  {
+    "from": "no-reply@spotify.com",
+    "subject": "Your receipt for Spotify Premium",
+    "date": "2026-09-10T14:30:00Z",
+    "snippet": "Thanks for subscribing to Spotify Premium. You've been charged ₹119 for this month."
+  },
+  {
+    "from": "auto-confirm@amazon.in",
+    "subject": "Amazon Prime Auto-Renewal Notification",
+    "date": "2026-09-01T08:15:00Z",
+    "snippet": "Your Amazon Prime annual subscription will auto-renew next week. A charge of ₹1499 will be applied."
+  },
+  {
+    "from": "linkedin@e.linkedin.com",
+    "subject": "Receipt for your LinkedIn Premium Career subscription",
+    "date": "2026-09-15T09:45:00Z",
+    "snippet": "This is a receipt for your LinkedIn Premium Career monthly subscription for ₹1200."
+  },
+  {
+    "from": "message@adobe.com",
+    "subject": "Your Adobe Creative Cloud Invoice",
+    "date": "2026-09-05T11:00:00Z",
+    "snippet": "Your latest invoice for Adobe Creative Cloud All Apps is available. The monthly charge of ₹4230 has been successfully processed."
+  },
+  {
+    "from": "noreply@medium.com",
+    "subject": "Your Medium membership renewed",
+    "date": "2026-09-12T07:30:00Z",
+    "snippet": "Thanks for being a Medium member. We have renewed your membership for $5/month."
+  },
+  {
+    "from": "no-reply@dropbox.com",
+    "subject": "Dropbox Plus storage receipt",
+    "date": "2026-09-14T16:20:00Z",
+    "snippet": "Your Dropbox Plus 2TB plan has been billed. This plan is shared with your partner."
+  },
+  {
+    "from": "alerts@hdfcbank.net",
+    "subject": "HDFC Bank Account Statement for August 2026",
+    "date": "2026-09-02T10:00:00Z",
+    "snippet": "Please find attached your HDFC Bank savings account statement for the month of August 2026."
+  },
+  {
+    "from": "statements@sbi.co.in",
+    "subject": "SBI Credit Card Statement - August",
+    "date": "2026-09-04T09:15:00Z",
+    "snippet": "Your SBI SimplyCLICK Credit Card statement is ready. Total amount due is ₹14,500."
+  },
+  {
+    "from": "ebill@airtel.com",
+    "subject": "Your Airtel Postpaid Bill is generated",
+    "date": "2026-09-16T12:00:00Z",
+    "snippet": "Your Airtel postpaid mobile bill for ₹599 is generated. Due date is 30th September."
+  },
+  {
+    "from": "security@facebookmail.com",
+    "subject": "New login to Facebook from Chrome on Windows",
+    "date": "2026-09-19T08:00:00Z",
+    "snippet": "We noticed a new login from a device you don't usually use. Please review this activity."
+  },
+  {
+    "from": "no-reply@mail.instagram.com",
+    "subject": "Your recent Instagram activity",
+    "date": "2026-09-17T18:45:00Z",
+    "snippet": "Here are some updates from your Instagram account this week."
+  },
+  {
+    "from": "google-noreply@google.com",
+    "subject": "You are running low on storage",
+    "date": "2026-09-11T13:20:00Z",
+    "snippet": "Your Google One storage is 90% full. Upgrade your storage plan to keep saving files."
+  },
+  {
+    "from": "notification@slack.com",
+    "subject": "Activity in Offboard Workspace",
+    "date": "2026-09-19T09:30:00Z",
+    "snippet": "You have new unread mentions in the Offboard Workspace. Check out the latest updates."
+  },
+  {
+    "from": "billing@notion.so",
+    "subject": "Notion Plus Plan billing successful",
+    "date": "2026-09-08T15:10:00Z",
+    "snippet": "Your Notion Plus Plan for 5 team members was successfully billed at $40."
+  },
+  {
+    "from": "no-reply-aws@amazon.com",
+    "subject": "AWS Billing Alert",
+    "date": "2026-09-03T11:45:00Z",
+    "snippet": "Your AWS estimated charges for the month have exceeded your budget threshold of $10."
+  },
+  {
+    "from": "hello@curefit.com",
+    "subject": "Cult.fit Elite membership renewal",
+    "date": "2026-09-07T10:00:00Z",
+    "snippet": "Your Cult.fit Elite annual membership will be renewed next month. Stay fit!"
+  },
+  {
+    "from": "noreply@zomato.com",
+    "subject": "Zomato Gold subscription renewed!",
+    "date": "2026-09-13T20:30:00Z",
+    "snippet": "Your Zomato Gold 3-month subscription is active! You've been charged ₹999."
+  }
+]

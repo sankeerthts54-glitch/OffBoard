@@ -1,0 +1,20 @@
+export const SAMPLE_INBOX = [
+  { subject: "Your Netflix Receipt", sender: "receipts@netflix.com", date: "2023-10-01" },
+  { subject: "HDFC Bank Statement", sender: "alerts@hdfcbank.net", date: "2023-10-02" },
+  { subject: "Zomato Pro Renewal", sender: "noreply@zomato.com", date: "2023-10-05" },
+  { subject: "Airtel Postpaid Bill", sender: "ebill@airtel.com", date: "2023-10-06" },
+  { subject: "Cult.fit Membership", sender: "hello@cult.fit", date: "2023-10-08" },
+  { subject: "Spotify Premium Receipt", sender: "no-reply@spotify.com", date: "2023-10-10" },
+  { subject: "Your Amazon Prime Membership", sender: "prime@amazon.in", date: "2023-10-12" },
+  { subject: "Swiggy One Renewal", sender: "noreply@swiggy.in", date: "2023-10-15" },
+  { subject: "LinkedIn Premium Invoice", sender: "billing@linkedin.com", date: "2023-10-18" },
+  { subject: "Adobe Creative Cloud", sender: "billing@adobe.com", date: "2023-10-20" },
+  { subject: "Your Uber Trip", sender: "receipts@uber.com", date: "2023-10-22" },
+  { subject: "Ola Cabs Invoice", sender: "invoices@olacabs.com", date: "2023-10-24" },
+  { subject: "MakeMyTrip Booking Confirmed", sender: "bookings@makemytrip.com", date: "2023-10-25" },
+  { subject: "Google One Subscription", sender: "googleplay-noreply@google.com", date: "2023-10-27" },
+  { subject: "Jio Fiber Bill", sender: "jiofibercares@jio.com", date: "2023-10-28" },
+  { subject: "GitHub Copilot Receipt", sender: "billing@github.com", date: "2023-10-29" },
+  { subject: "Zerodha Monthly Statement", sender: "statements@zerodha.com", date: "2023-10-30" },
+  { subject: "Tata Sky Recharge Successful", sender: "noreply@tatasky.com", date: "2023-10-31" }
+];
