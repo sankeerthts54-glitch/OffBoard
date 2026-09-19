@@ -194,6 +194,11 @@ Resources:
             FunctionName: !Ref NotifyFunction
         - DynamoDBCrudPolicy:
             TableName: !Ref OffboardAccountsTable
+        - Statement:
+            - Effect: Allow
+              Action:
+                - sns:Publish
+              Resource: !Ref OffboardNotificationTopic
 
   RescanScheduleRule:
     Type: AWS::Events::Rule
