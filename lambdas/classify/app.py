@@ -46,7 +46,7 @@ except Exception as e:
     table = None
 
 bedrock = boto3.client('bedrock-runtime')
-BEDROCK_MODEL_ID = os.environ.get('BEDROCK_MODEL_ID', 'anthropic.claude-3-haiku-20240307-v1:0')
+BEDROCK_MODEL_ID = os.environ.get('BEDROCK_MODEL_ID', 'anthropic.claude-haiku-4-5-20250514-v1:0')
 
 def lambda_handler(event, context):
     try:
