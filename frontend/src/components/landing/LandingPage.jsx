@@ -14,76 +14,66 @@ import Footer from './Footer';
 
 export default function LandingPage({ onStart }) {
   return (
-    <div className="relative min-h-screen landing-gradient-bg text-gray-100 font-sans overflow-x-hidden">
-      {/* Fixed background layers */}
-      <AnimatedBackground />
-      <div className="noise-overlay" />
+    // Transparent root — background is handled by AnimatedBackground (fixed layer z:0)
+    <div className="relative min-h-screen text-gray-100 font-sans overflow-x-hidden bg-[#060612]">
 
-      {/* Fixed navigation */}
+      {/* Fixed animated background — sits at z:0 behind everything */}
+      <AnimatedBackground />
+
+      {/* Fixed navigation — z:50 */}
       <Navbar onStart={onStart} />
 
-      {/* Scrollable content — z-10 keeps it above the background canvas */}
-      <main className="relative z-10">
+      {/* All sections — z:10 so they sit above the background */}
+      <main className="relative" style={{ zIndex: 10 }}>
 
-        {/* Hero */}
         <section className="min-h-screen flex flex-col justify-center">
           <HeroSection onStart={onStart} />
         </section>
 
-        {/* The Problem */}
         <div className="section-divider" />
         <section id="product" className="py-24 px-4 sm:px-6">
           <ProblemSection />
         </section>
 
-        {/* What is Offboard */}
         <div className="section-divider" />
         <section id="how-it-works" className="py-24 px-4 sm:px-6">
           <WhatIsSection />
         </section>
 
-        {/* Life Transitions */}
         <div className="section-divider" />
         <section className="py-24 px-4 sm:px-6">
           <TransitionShowcase />
         </section>
 
-        {/* AI Engine */}
         <div className="section-divider" />
         <section id="ai-engine" className="py-24 px-4 sm:px-6">
           <AIEngineSection />
         </section>
 
-        {/* Automation */}
         <div className="section-divider" />
         <section className="py-24 px-4 sm:px-6">
           <AutomationSection />
         </section>
 
-        {/* AWS Architecture */}
         <div className="section-divider" />
         <section id="technology" className="py-24 px-4 sm:px-6">
           <ArchitectureSection />
         </section>
 
-        {/* Security */}
         <div className="section-divider" />
         <section id="security" className="py-24 px-4 sm:px-6">
           <SecuritySection />
         </section>
 
-        {/* Before / After Transformation */}
         <div className="section-divider" />
         <section className="py-24 px-4 sm:px-6">
           <TransformationSection />
         </section>
 
-        {/* Final CTA */}
         <section className="py-32 px-4 sm:px-6">
           <CTASection onStart={onStart} />
         </section>
 
-        {/* Footer */}
         <Footer />
       </main>
     </div>
