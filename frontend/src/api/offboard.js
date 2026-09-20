@@ -1,5 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-const USE_MOCK = true;
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://jcqvarlxsl.execute-api.us-east-1.amazonaws.com/Prod';
+const USE_MOCK = false;
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
