@@ -5,8 +5,10 @@ import InboxUpload from './components/InboxUpload';
 import AccountDashboard from './components/AccountDashboard';
 import ActionPanel from './components/ActionPanel';
 import StatusTracker from './components/StatusTracker';
+import LandingPage from './components/landing/LandingPage';
 
 export default function App() {
+  const [showLanding, setShowLanding] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [transitionType, setTransitionType] = useState(null);
   const [sessionId, setSessionId] = useState(null);
@@ -25,6 +27,11 @@ export default function App() {
   const handleClassified = (classifiedData) => {
     setClassifiedAccounts(classifiedData);
   };
+
+  // Landing page -> wizard transition
+  if (showLanding) {
+    return <LandingPage onStart={() => setShowLanding(false)} />;
+  }
 
   const renderStep = () => {
     switch (currentStep) {
@@ -66,37 +73,31 @@ export default function App() {
     }
   };
 
-  // Steps where Next button is driven by the component itself (not shown here)
   const hiddenNext = [2, 4, 5];
-  // Steps where Back is not applicable
   const hideBack = [5];
 
   return (
     <Layout currentStep={currentStep}>
       <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6">
         {renderStep()}
-
-        {/* Navigation bar */}
         <div className="mt-10 flex justify-between items-center border-t border-white/5 pt-6">
           <button
             onClick={handleBack}
             disabled={currentStep === 1 || hideBack.includes(currentStep)}
             className="flex items-center gap-2 px-5 py-2.5 glass border border-white/10 text-gray-300 rounded-xl hover:text-white hover:border-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200 text-sm font-medium"
           >
-            ← Back
+            &larr; Back
           </button>
-
           <div className="text-xs text-gray-600 font-medium">
             Step {currentStep} of 5
           </div>
-
           {!hiddenNext.includes(currentStep) && (
             <button
               onClick={handleNext}
               disabled={currentStep === 1 && !transitionType}
               className="flex items-center gap-2 px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200 text-sm shadow-lg glow-indigo hover:scale-105"
             >
-              {currentStep === 3 ? 'Proceed to Actions' : 'Next Step'} →
+              {currentStep === 3 ? 'Proceed to Actions' : 'Next Step'} &rarr;
             </button>
           )}
         </div>
